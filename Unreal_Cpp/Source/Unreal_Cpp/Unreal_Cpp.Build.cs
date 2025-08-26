@@ -24,7 +24,9 @@ public class Unreal_Cpp : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"Unreal_Cpp/Example001"
+				"Unreal_Cpp/Example001",
+				"Unreal_Cpp/Example002",
+				"Unreal_Cpp/Example003",
 			}
 		);
 

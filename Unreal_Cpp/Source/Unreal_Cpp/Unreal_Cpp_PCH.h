@@ -9,6 +9,8 @@
 #include "UObject/WeakInterfacePtr.h"
 #include "UObject/ConstructorHelpers.h"
 
+#include "GameFramework/Actor.h"
+
 // UI
 #include "Widgets/SCompoundWidget.h"
 #include "UMG.h"
@@ -18,5 +20,7 @@
 #endif // WITH_EDITOR
 
 //-- My Header --
+#include "MyLib/MyActorUtil.h"
+#include "MyLib/MyCDO.h"
 #include "MyLib/MyLog.h"
 
