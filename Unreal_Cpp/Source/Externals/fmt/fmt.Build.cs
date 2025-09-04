@@ -5,7 +5,7 @@ public class fmt : ModuleRules
     public fmt(ReadOnlyTargetRules Target) : base(Target)
     {
         Type = ModuleType.External;
-        
+		
         // Enable C++17
         CppStandard = CppStandardVersion.Cpp17;
         
@@ -21,7 +21,7 @@ public class fmt : ModuleRules
             "FMT_USE_GRISU3=0",
             "FMT_USE_FLOAT128=0",
             "FMT_STRING_ALIAS=0",
-			//"TEXT=__TEXT"  // ONLY HERE - redefines TEXT macro for fmtlib module only
+			"FMT_EXCEPTIONS=0",
         });
     }
 }

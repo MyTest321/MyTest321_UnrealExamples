@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MyEnum.h"
+
 #pragma push_macro("check")
 #pragma push_macro("verify")
 #undef check
@@ -8,45 +10,43 @@
 	#define FMT_HEADER_ONLY 1
 	#define FMT_EXCEPTIONS 0
 
-#if defined(UNICODE) || defined(_UNICODE)
-	#define FMT_USE_WCHAR 1
-	#include "../../Externals/fmt/include/fmt/xchar.h"
-	using MyFmt_Context = fmt::wformat_context;
-#else
-	#define FMT_USE_WCHAR 0
-	using MyFmt_Context = fmt::format_context;
-#endif
+	#if defined(UNICODE) || defined(_UNICODE)
+		#define FMT_USE_WCHAR 1
+		#include "../../Externals/fmt/include/fmt/xchar.h"
+		using MyFmt_Context = fmt::wformat_context;
+	#else
+		#define FMT_USE_WCHAR 0
+		using MyFmt_Context = fmt::format_context;
+	#endif
 
 	#include "../../Externals/fmt/include/fmt/core.h"
 
-#pragma pop_macro("check")
 #pragma pop_macro("verify")
-
-#include "MyEnum.h"
+#pragma pop_macro("check")
 
 #include <UObject/ReflectedTypeAccessors.h>
 
 class MyFmt_FStringBackInserter {
-	using This = MyFmt_FStringBackInserter;
+	using ThisClass = MyFmt_FStringBackInserter;
 public:
 	MyFmt_FStringBackInserter() = default;
 	explicit MyFmt_FStringBackInserter(FString& out) noexcept : _out(&out) {}
 
-	This& operator=(const char   &  ch)	{ _out->AppendChar(ch); return *this; }
-	This& operator=(const wchar_t&  ch)	{ _out->AppendChar(ch); return *this; }
+	ThisClass& operator=(const    char &  ch) noexcept { _out->AppendChar(ch); return *this; }
+	ThisClass& operator=(const wchar_t &  ch) noexcept { _out->AppendChar(ch); return *this; }
 
-	This& operator=(      char	  && ch) { _out->AppendChar(std::move(ch)); return *this; }
-	This& operator=(      wchar_t && ch) { _out->AppendChar(std::move(ch)); return *this; }
-
-	template <size_t N> 
-	This& operator=(char (&chs)[N]) { if (N) { _out->AppendChars(chs, N - 1); } return *this; }
+	ThisClass& operator=(         char && ch) noexcept { _out->AppendChar(std::move(ch)); return *this; }
+	ThisClass& operator=(      wchar_t && ch) noexcept { _out->AppendChar(std::move(ch)); return *this; }
 
 	template <size_t N> 
-	This& operator=(wchar_t (&chs)[N]) { if (N) { _out->AppendChars(chs, N - 1); } return *this; }
+	ThisClass& operator=(   char (&chs)[N]) noexcept { if (N) { _out->AppendChars(chs, N - 1); } return *this; }
 
-	This& operator* ()		noexcept { return *this; }
-	This& operator++()		noexcept { return *this; }
-	This  operator++(int)	noexcept { return *this; }
+	template <size_t N> 
+	ThisClass& operator=(wchar_t (&chs)[N]) noexcept { if (N) { _out->AppendChars(chs, N - 1); } return *this; }
+
+	ThisClass& operator* ()		noexcept { return *this; }
+	ThisClass& operator++()		noexcept { return *this; }
+	ThisClass  operator++(int)	noexcept { return *this; }
 
 private:
 	FString* _out = nullptr;
@@ -72,9 +72,9 @@ void MyAppendFormat(FString& outStr, fmt::format_string<ARGS...> Format, const A
 	}
 }
 
+
 template<class... ARGS> inline
 FString MyFormat(const TCHAR* Format, const ARGS& ... Args) {
-	static_assert(sizeof...(Args) > 0);
 	FString tmp;
 	MyAppendFormat(tmp, Format, Args...);
 	return tmp;
@@ -82,14 +82,12 @@ FString MyFormat(const TCHAR* Format, const ARGS& ... Args) {
 
 template<class... ARGS> inline
 FText MyFormatText(const TCHAR* Format, const ARGS& ... Args) {
-	static_assert(sizeof...(Args) > 0);
 	FString tmp = MyFormat(Format, Args...);
 	return FText::FromString(tmp);
 }
 
 template<class... ARGS> inline
 FName MyFormatName(const TCHAR* Format, const ARGS& ... Args) {
-	static_assert(sizeof...(Args) > 0);
 	FString tmp = MyFormat(Format, Args...);
 	return FName(tmp);
 }
@@ -125,7 +123,7 @@ struct fmt::formatter<FName, TCHAR> : public fmt::formatter<FString, TCHAR> {
 	}
 };
 
-template<>
+template <>
 struct fmt::formatter<FSmartName, TCHAR> : fmt::formatter<FString, TCHAR> {
 	using MyBase = fmt::formatter<FString, TCHAR>;
 	auto format(const FSmartName& v, MyFmt_Context& ctx) const {
@@ -133,7 +131,7 @@ struct fmt::formatter<FSmartName, TCHAR> : fmt::formatter<FString, TCHAR> {
 	}
 };
 
-template<>
+template <>
 struct fmt::formatter<FText, TCHAR> : fmt::formatter<FString, TCHAR> {
 	using MyBase = fmt::formatter<FString, TCHAR>;
 	auto format(const FText& v, MyFmt_Context& ctx) const {
@@ -177,33 +175,10 @@ struct fmt::formatter<UE::Math::TRotator<E>, TCHAR> : public MyFormatterBase {
 	}
 };
 
-template<>
-struct fmt::formatter<FVector2D, TCHAR> : public MyFormatterBase {
-	auto format(const FVector2D& v, MyFmt_Context& ctx) const {
-		return fmt::format_to(ctx.out(), TEXT("[X={}, Y={}]"), v.X, v.Y);
-	}
-};
-
-template<>
-struct fmt::formatter<FVector, TCHAR> : public MyFormatterBase {
-	auto format(const FVector& v, MyFmt_Context& ctx) const {
-		return fmt::format_to(ctx.out(), TEXT("[X={}, Y={}, Z={}]"), v.X, v.Y, v.Z);
-	}
-};
-
 template <>
-struct fmt::formatter<FVector_NetQuantize, TCHAR> : public fmt::formatter<FVector, TCHAR> {
-	auto format(const FVector_NetQuantize& v, MyFmt_Context& ctx) const {
-		return fmt::formatter<FVector, TCHAR>::format(v, ctx);
-	}
-};
-
-template<>
 struct fmt::formatter<AActor, TCHAR> : public MyFormatterBase {
 	auto format(const AActor& v, MyFmt_Context& ctx) const {
 		static const TCHAR* ksz = TEXT("Nullptr");
-		return fmt::format_to(ctx.out(), TEXT("Actor: {}"),
-			IsValid(&v) ? v.GetFName() : ksz
-		);
+		return fmt::format_to(ctx.out(), TEXT("Actor: {}"), IsValid(&v) ? v.GetFName() : ksz);
 	}
 };

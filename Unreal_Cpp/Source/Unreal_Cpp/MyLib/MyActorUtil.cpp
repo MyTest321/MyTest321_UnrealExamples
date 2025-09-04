@@ -4,6 +4,7 @@
 #include "Components/MeshComponent.h"
 #include "Components/MeshComponent.h" 
 #include "Components/BillboardComponent.h"
+#include "GameFramework/GameModeBase.h"
 
 #include "Unreal_Cpp/Example003/MyExample003_CubeMeshComponent.h" // #include "../Example003/MyExample003_CubeMeshComponent.h";
 
@@ -124,6 +125,18 @@ UBillboardComponent* MyActorUtil::SetRootComponent_UBillboardComponent(AActor* A
 	return MyActorUtil::_SetRootComponentImpl<UBillboardComponent>(Actor, Name);
 }
 
-UMyExample003_CubeMeshComponent* MyActorUtil::SetRootComponent_UMyExample003_CubeMeshComponent(AActor* Actor, const FName& Name/*= NAME_None*/) {
+AGameModeBase* MyActorUtil::GetGameMode(AActor* Actor)
+{
+	if (!Actor)
+		return nullptr;
+
+	if (auto* World = Actor->GetWorld()) {
+		return World->GetAuthGameMode();
+	}
+	return nullptr;
+}
+
+UMyExample003_CubeMeshComponent* MyActorUtil::SetRootComponent_UMyExample003_CubeMeshComponent(AActor* Actor, const FName& Name /*= NAME_None*/)
+{
 	return MyActorUtil::_SetRootComponentImpl<UMyExample003_CubeMeshComponent>(Actor, Name);
 }

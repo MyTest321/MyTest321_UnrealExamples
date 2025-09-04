@@ -7,13 +7,21 @@ public class Unreal_Cpp : ModuleRules
 	public Unreal_Cpp(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-
+		
 		PrivatePCHHeaderFile = "Unreal_Cpp_PCH.h";
 
 		PublicDependencyModuleNames.AddRange(new string[] {
 			//-- Externals --
 			"fmt",
-		
+
+			//-- Unreal Module --
+			"UMG",
+			"Slate",
+			"SlateCore",
+
+			//-- Unreal Plugin --
+//			"EnhancedInput", // required UE5.1 Manually: Edit -> Plugins -> Enable Enhanced Input
+
 			//-- Default --
 			"Core",
 			"CoreUObject",

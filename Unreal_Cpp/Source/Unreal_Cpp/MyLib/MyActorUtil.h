@@ -1,6 +1,7 @@
 #pragma once
 
 class AActor;
+class AGameModeBase;
 class UMaterialInterface;
 class UMaterialInstanceDynamic;
 
@@ -17,6 +18,7 @@ struct MyActorUtil {
 	static UMaterialInterface*	GetOverlayMaterial(AActor* Actor);
 #endif
 
+	static void					SetFolderPath(AActor* Actor, const FName& NewFolderPath);
 	FORCEINLINE static void		SetActorLabel(AActor* Actor, const FString& Label);
 
 	static void					SetMaterial(AActor* Actor, int ElementIndex, UMaterialInterface* Material);
@@ -50,6 +52,8 @@ struct MyActorUtil {
 	static USceneComponent*	GetParentComponent(UActorComponent* Comp) { return GetParentComponent(GetActor(Comp)); }
 	static USceneComponent*	GetParentComponent(AActor*         Actor) { return Actor ? Actor->GetRootComponent() : nullptr; }
 
+	static AGameModeBase*	GetGameMode(AActor* Actor);
+
 	static UMyExample003_CubeMeshComponent* SetRootComponent_UMyExample003_CubeMeshComponent(AActor* Actor, const FName& Name = NAME_None);
 
 private:
@@ -69,6 +73,14 @@ COMP_TYPE* MyActorUtil::GetOrNewComponent(PARANT* Parent)
 		return OutComp;
 
 	return NewComponent<COMP_TYPE>(Parent);
+}
+
+FORCEINLINE
+void MyActorUtil::SetFolderPath(AActor* Actor, const FName& NewFolderPath) {
+#if WITH_EDITOR
+	if (Actor)
+		Actor->SetFolderPath(NewFolderPath);
+#endif
 }
 
 FORCEINLINE
