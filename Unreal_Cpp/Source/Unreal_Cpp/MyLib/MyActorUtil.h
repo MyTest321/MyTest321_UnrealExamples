@@ -48,6 +48,12 @@ struct MyActorUtil {
 	static AActor*			GetActor(AActor*         Actor) { return Actor; }
 	static AActor*			GetActor(UActorComponent* Comp) { return Comp ? Comp->GetOwner() : nullptr; }
 
+	template<class ACTOR>
+	static ACTOR* GetActor(AActor* Actor) { return Cast<ACTOR>(Actor); }
+
+	template<class ACTOR>
+	static ACTOR* GetActor(UActorComponent* Comp) { return Comp ? Cast<ACTOR>(GetActor(Actor)) : nullptr; }
+
 	static USceneComponent*	GetParentComponent(USceneComponent* Comp) { return Comp; }
 	static USceneComponent*	GetParentComponent(UActorComponent* Comp) { return GetParentComponent(GetActor(Comp)); }
 	static USceneComponent*	GetParentComponent(AActor*         Actor) { return Actor ? Actor->GetRootComponent() : nullptr; }

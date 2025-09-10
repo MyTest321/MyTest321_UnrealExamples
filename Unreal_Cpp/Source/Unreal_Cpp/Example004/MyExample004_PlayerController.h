@@ -31,6 +31,7 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void SetupInputComponent() override;
 
+private:
 	void OnInputAxis_MoveForward(float Value);
 	void OnInputAxis_MoveRight	(float Value);
 

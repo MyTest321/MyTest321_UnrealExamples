@@ -37,6 +37,7 @@ public class Unreal_Cpp : ModuleRules
 				"Unreal_Cpp/Example003",
 				"Unreal_Cpp/Example004",
 				"Unreal_Cpp/Example005",
+				"Unreal_Cpp/Example006",
 			}
 		);
 
