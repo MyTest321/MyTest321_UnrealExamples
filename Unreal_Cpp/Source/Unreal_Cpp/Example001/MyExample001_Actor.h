@@ -54,8 +54,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	virtual void Tick(float DeltaTime) override;
-	
 	UPROPERTY(EditAnywhere)
 	int Test_Edit = 0;
 
@@ -102,6 +100,12 @@ public:
 	
 	UPROPERTY(EditAnywhere)
 	EMyExample001_MyEnumClass Test_EnumClass;
+
+	UFUNCTION(BlueprintCallable)
+	void BPCallCpp(int testInt, float testFloat);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void CppCallBPEvent(int testInt, float testFloat);
 
 	void DemoStringFormat();
 	void DemoEnum();

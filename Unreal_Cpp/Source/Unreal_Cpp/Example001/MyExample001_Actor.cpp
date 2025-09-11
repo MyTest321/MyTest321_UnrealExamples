@@ -13,8 +13,13 @@ void AMyExample001_Actor::BeginPlay()
 	DemoEnum();
 }
 
-void AMyExample001_Actor::DemoStringFormat() {
+void AMyExample001_Actor::BPCallCpp(int testInt, float testFloat)
+{
+	MY_LOG_WARNING(TEXT("BPCallCpp ({}, {})"), testInt, testFloat);
+}
 
+void AMyExample001_Actor::DemoStringFormat()
+{
 	const char*	   sz = "Hello";
 	const wchar_t* wcs = L"Hello";
 	const TCHAR*   tcs = TEXT("Hello");
@@ -87,9 +92,3 @@ void AMyExample001_Actor::DemoEnum() {
 	auto EnumBitwiseOr = EMyExample001_MyEnumClass::A | EMyExample001_MyEnumClass::B;
 	MY_LOG(TEXT("EnumInfo EnumBitwiseOr {}"), EnumBitwiseOr);
 }
-
-void AMyExample001_Actor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
