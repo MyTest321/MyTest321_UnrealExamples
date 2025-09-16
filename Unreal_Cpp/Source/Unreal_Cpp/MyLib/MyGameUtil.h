@@ -20,7 +20,7 @@ struct MyGameUtil {
 
 	static void SetShowMouseCursor(bool bShow);
 
-	static void GetAllActorsWithTag(const FName& Tag, TArray<AActor*>& OutActors);
+	static void GetAllActorsWithTag(TArray<AActor*>& OutActors, const FName& Tag);
 };
 
 template <class GAME_INSTANCE_TYPE> inline

@@ -8,7 +8,7 @@ void UMyExample006_AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
     Super::NativeUpdateAnimation(DeltaSeconds);
 
-	// kind of UAnimInstance::TryGetPawnOwner
+	// get character kind of UAnimInstance::TryGetPawnOwner
 	auto* Mesh = GetSkelMeshComponent();
 	if (!Mesh) return;
 
@@ -18,7 +18,6 @@ void UMyExample006_AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 	_UpdateMove();
 	_UpdateAim();
-	//_UpdateSlotWeight();
 }
 
 void UMyExample006_AnimInstance::_UpdateMove() {

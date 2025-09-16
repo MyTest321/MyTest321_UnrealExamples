@@ -1,13 +1,13 @@
-#include "MyExample006_PlayerController.h"
-#include "MyExample006_Character.h"
+#include "MyExample007_PlayerController.h"
+#include "MyExample007_Character.h"
 #include "GameFramework/Pawn.h"
 
-AMyExample006_PlayerController::AMyExample006_PlayerController()
+AMyExample007_PlayerController::AMyExample007_PlayerController()
 {
 	InputDirection = FVector::Zero();
 }
 
-void AMyExample006_PlayerController::Tick(float DeltaSeconds)
+void AMyExample007_PlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
@@ -20,23 +20,24 @@ void AMyExample006_PlayerController::Tick(float DeltaSeconds)
 		return;
 
 	auto v = MyCharacter->GetTransform().TransformVector(InputDirection);
+	v *= FMath::Clamp(1 - MyCharacter->BlockMoveCurveValue, 0.0f, 1.0f);
 	MyCharacter->GetMovementComponent()->AddInputVector(v);
 }
 
-void AMyExample006_PlayerController::OnPossess(APawn* aPawn) {
+void AMyExample007_PlayerController::OnPossess(APawn* aPawn) {
 	Super::OnPossess(aPawn);
-	MyCharacter = Cast<AMyExample006_Character>(aPawn);
+	MyCharacter = Cast<AMyExample007_Character>(aPawn);
 
 	using T = std::remove_pointer_t<decltype(MyCharacter)>;
 	MyCharacter = CastChecked<T>(aPawn);
 }
 
-void AMyExample006_PlayerController::OnUnPossess() {
+void AMyExample007_PlayerController::OnUnPossess() {
 	Super::OnUnPossess();
 	MyCharacter = nullptr;
 }
 
-void AMyExample006_PlayerController::SetupInputComponent() {
+void AMyExample007_PlayerController::SetupInputComponent() {
 	Super::SetupInputComponent();
 
 	SetShowMouseCursor(true);
@@ -67,51 +68,52 @@ void AMyExample006_PlayerController::SetupInputComponent() {
 	#undef MY_BIND_ACTION
 }
 
-void AMyExample006_PlayerController::OnInputAxis_MoveForward(float Value) { InputDirection.X = Value; }
-void AMyExample006_PlayerController::OnInputAxis_MoveRight  (float Value) { InputDirection.Y = Value; }
+void AMyExample007_PlayerController::OnInputAxis_MoveForward(float Value) { InputDirection.X = Value; }
+void AMyExample007_PlayerController::OnInputAxis_MoveRight  (float Value) { InputDirection.Y = Value; }
 
-void AMyExample006_PlayerController::OnInputAxis_TurnRight(float Value)
+void AMyExample007_PlayerController::OnInputAxis_TurnRight(float Value)
 {
 //	MY_LOG_ON_SCREEN(TEXT("OnInputAxis_TurnRight {}"), Value);
 	AddYawInput(Value);
 }
-void AMyExample006_PlayerController::OnInputAxis_TurnRightRate(float Value)
+void AMyExample007_PlayerController::OnInputAxis_TurnRightRate(float Value)
 {
 //	MY_LOG_ON_SCREEN(TEXT("OnInputAxis_TurnRightRate {}"), Value * BaseTurnRightRate * GetWorld()->GetDeltaSeconds());
 	AddYawInput(Value * BaseTurnRightRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AMyExample006_PlayerController::OnInputAxis_LookUp(float Value)
+void AMyExample007_PlayerController::OnInputAxis_LookUp(float Value)
 {
 	AddPitchInput(Value);
 }
-void AMyExample006_PlayerController::OnInputAxis_LookUpRate(float Value)
+void AMyExample007_PlayerController::OnInputAxis_LookUpRate(float Value)
 {
 	AddPitchInput(Value * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AMyExample006_PlayerController::Crouch_IE_Pressed()
+void AMyExample007_PlayerController::Crouch_IE_Pressed()
 {
 	MY_LOG_INFO(TEXT("Crouch_IE_Pressed"));
 	if (!MyCharacter)
 		return;
 	MyCharacter->MyCrouch = !MyCharacter->MyCrouch;
 }
-void AMyExample006_PlayerController::Equip_IE_Pressed()
+void AMyExample007_PlayerController::Equip_IE_Pressed()
 {
 	MY_LOG_INFO(TEXT("Equip_IE_Pressed"));
 	if (!MyCharacter)
 		return;
 	MyCharacter->MyEquip();
 }
-void AMyExample006_PlayerController::Fire_IE_Pressed()
+void AMyExample007_PlayerController::Fire_IE_Pressed()
 {
 	MY_LOG_INFO(TEXT("Fire_IE_Pressed"));
 	if (!MyCharacter)
 		return;
 	MyCharacter->MyFire();
 }
-void AMyExample006_PlayerController::Jump_IE_Pressed()
+
+void AMyExample007_PlayerController::Jump_IE_Pressed()
 {
 	MY_LOG_INFO(TEXT("Jump_IE_Pressed"));
 	if (!MyCharacter)

@@ -13,9 +13,6 @@ class UNREAL_CPP_API AMyExample006_Character : public ACharacter {
 public:
 	AMyExample006_Character();
 
-	UPROPERTY(EditAnywhere, Transient)
-	float BlockMoveCurveValue = 0;
-
 	UPROPERTY(VisibleAnywhere, Transient)
 	bool MyCrouch = false;
 

@@ -23,7 +23,6 @@ AMyExample006_Character::AMyExample006_Character() {
 	MY_CDO_FINDER(GetMesh()->AnimClass, TEXT("AnimBlueprint'/Game/ThirdPerson/MyExample006/MyExample006_AnimBP'"));
 
 	// Character Movement
-	// https://www.youtube.com/watch?v=k5Lcn2Kc3XI
 	bUseControllerRotationYaw = true;
 
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...
@@ -37,8 +36,9 @@ void AMyExample006_Character::BeginPlay()
 {
 	Super::BeginPlay();
 
+	static FName MyTargetName(TEXT("MyTarget"));
 	TArray<AActor*> TargetList;
-	UGameplayStatics::GetAllActorsWithTag(GetWorld(), TEXT("MyTarget"), TargetList);
+	MyGameUtil::GetAllActorsWithTag(TargetList, MyTargetName);
 	if (TargetList.Num() > 0)
 	{
 		Target = TargetList[0];
@@ -47,12 +47,15 @@ void AMyExample006_Character::BeginPlay()
 
 void AMyExample006_Character::MyEquip()
 {
+	MY_LOG_INFO(TEXT("MyEquip"));
 }
 
 void AMyExample006_Character::MyFire()
 {
+	MY_LOG_INFO(TEXT("MyFire"));
 }
 
 void AMyExample006_Character::MyJump()
 {
+	MY_LOG_INFO(TEXT("MyJump"));
 }

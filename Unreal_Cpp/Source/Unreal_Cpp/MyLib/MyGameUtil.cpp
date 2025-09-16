@@ -41,6 +41,6 @@ void MyGameUtil::SetShowMouseCursor(bool bShow)
 	}
 }
 
-void MyGameUtil::GetAllActorsWithTag(const FName& Tag, TArray<AActor*>& OutActors) {
+void MyGameUtil::GetAllActorsWithTag(TArray<AActor*>& OutActors, const FName& Tag) {
 	UGameplayStatics::GetAllActorsWithTag(MyGameUtil::CurWorld(), Tag, OutActors);
 }
