@@ -9,6 +9,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
+#include "GameFramework/PlayerInput.h"
 #include "Kismet/GameplayStatics.h"
 #include "Math/MathFwd.h"
 #include "Runtime/Engine/Classes/Engine/UserInterfaceSettings.h"

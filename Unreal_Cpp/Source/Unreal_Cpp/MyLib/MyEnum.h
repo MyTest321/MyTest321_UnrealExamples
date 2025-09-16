@@ -8,7 +8,7 @@ public:
 	template<class T> inline static
 	typename IntType<T> ToInt(const T& V) {
 		static_assert(std::is_enum_v<T>);
-		return static_cast<typename IntType<T>::Type>(V);
+		return static_cast<typename IntType<T>>(V);
 	}
 
 	template<class T> inline static

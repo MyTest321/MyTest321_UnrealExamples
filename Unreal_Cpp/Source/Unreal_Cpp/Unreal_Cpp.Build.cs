@@ -15,12 +15,10 @@ public class Unreal_Cpp : ModuleRules
 			"fmt",
 
 			//-- Unreal Module --
-			"UMG",
-			"Slate",
-			"SlateCore",
-
-			//-- Unreal Plugin --
-//			"EnhancedInput", // required UE5.1 Manually: Edit -> Plugins -> Enable Enhanced Input
+			"UMG",				// MyExample009 UI
+			"Slate",			// MyExample009 FNavigation
+			"SlateCore",		// MyExample009 FNavigation
+//			"EnhancedInput",	// required UE5.1 Manually: Edit -> Plugins -> Enable Enhanced Input
 
 			//-- Default --
 			"Core",
@@ -40,6 +38,7 @@ public class Unreal_Cpp : ModuleRules
 				"Unreal_Cpp/Example006",
 				"Unreal_Cpp/Example007",
 				"Unreal_Cpp/Example008",
+				"Unreal_Cpp/Example009",
 			}
 		);
 
