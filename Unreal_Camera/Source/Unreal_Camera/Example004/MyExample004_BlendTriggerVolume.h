@@ -17,13 +17,17 @@ class UNREAL_CAMERA_API AMyExample004_BlendTriggerVolume : public AActor
 public:	
 	AMyExample004_BlendTriggerVolume();
 
+	void GetMovementVectors(FVector& ForwardVector, FVector& RightVector);
+	
 protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(Category = "MyExample004", EditAnywhere, BlueprintReadWrite) TObjectPtr<UBoxComponent> OverlapVolume;
-	UPROPERTY(Category = "MyExample004", EditAnywhere, Transient) TWeakObjectPtr<ACameraActor> CameraToFind;
+	UPROPERTY(Category = "MyExample004", EditAnywhere/*, Transient*/) TWeakObjectPtr<ACameraActor> CameraToFind;
 	UPROPERTY(Category = "MyExample004", EditAnywhere, BlueprintReadWrite, meta =(ClampMin = 0.0f)) float CameraBlendTime = 1.f;
 
+	UPROPERTY(Category = "MyExample004", EditAnywhere, BlueprintReadWrite) TObjectPtr<USceneComponent> moveDirection;
+	
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
 };

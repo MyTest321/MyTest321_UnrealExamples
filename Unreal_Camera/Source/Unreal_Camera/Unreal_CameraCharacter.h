@@ -47,7 +47,9 @@ class AUnreal_CameraCharacter : public ACharacter
 public:
 	AUnreal_CameraCharacter();
 	
-
+	void LockMovementDirection(const FVector& Forward, const FVector& Right);
+	void UnlockMovementDirection();
+	
 protected:
 
 	/** Called for movement input */
@@ -55,8 +57,10 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
-			
-
+	
+	FVector CachedForwardDirection;
+	FVector CachedRightDirection;
+	bool bUseFixedMovementDirection = false;
 protected:
 
 	virtual void NotifyControllerChanged() override;
