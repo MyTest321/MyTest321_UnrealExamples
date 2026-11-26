@@ -22,7 +22,7 @@
 </Configuration>
 ```
 
-## Building
+## How to Build
 - Run `gen_vs2022.bat`
 - Open `MyFooGame.sln` and Compile/Run
 
